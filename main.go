@@ -4,9 +4,22 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/junaidshaikh-js/CineHubServer/logger"
 )
 
+func initializeLogger() *logger.Logger {
+	logger, err := logger.NewLogger("movie.log")
+
+	if err != nil {
+		log.Fatalf("Failed to initialize logger: %v", err)
+	}
+
+	return logger
+}
+
 func main() {
+	logger := initializeLogger()
 
 	http.Handle("/", http.FileServer(http.Dir("public")))
 
@@ -23,6 +36,6 @@ func main() {
 	err := s.ListenAndServe()
 
 	if err != nil {
-		log.Fatal("Server failed to start: ", err)
+		logger.Error("Server failed to start: ", err)
 	}
 }
