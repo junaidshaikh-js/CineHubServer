@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/junaidshaikh-js/CineHubServer/handlers"
 	"github.com/junaidshaikh-js/CineHubServer/logger"
 )
 
@@ -20,6 +21,10 @@ func initializeLogger() *logger.Logger {
 
 func main() {
 	logger := initializeLogger()
+
+	movieHandler := handlers.NewMovieHandler()
+
+	http.HandleFunc("/api/movies/top", movieHandler.GetTopMovies)
 
 	http.Handle("/", http.FileServer(http.Dir("public")))
 
