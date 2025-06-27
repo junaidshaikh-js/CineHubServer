@@ -13,6 +13,14 @@ func NewMovieHandler() *MovieHandler {
 	return &MovieHandler{}
 }
 
+func (h *MovieHandler) writeJSON(w http.ResponseWriter, data interface{}) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if err := json.NewEncoder(w).Encode(data); err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+}
+
 func (h *MovieHandler) GetTopMovies(w http.ResponseWriter, r *http.Request) {
 	movies := []models.Movie{
 		{
@@ -74,9 +82,29 @@ func (h *MovieHandler) GetTopMovies(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(movies); err != nil {
-		// TODO: Log error
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	h.writeJSON(w, movies)
+}
+
+func (h *MovieHandler) GetRandomMovie(w http.ResponseWriter, r *http.Request) {
+	movie := models.Movie{
+		ID:          2,
+		TMDB_ID:     102,
+		Title:       "Space Dreams",
+		ReleaseYear: 2020,
+		Genres: []models.Genre{{
+			ID:   2,
+			Name: "Sci-Fi",
+		}},
+		Keywords: []string{
+			"space",
+			"exploration",
+		},
+		Casting: []models.Actor{{
+			ID:        2,
+			FirstName: "John",
+			LastName:  "Star",
+		}},
 	}
+
+	h.writeJSON(w, movie)
 }
