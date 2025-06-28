@@ -64,3 +64,21 @@ func (s *PostgresMovieStore) getMovies(query string) ([]models.Movie, error) {
 
 	return movies, nil
 }
+
+func (s *PostgresMovieStore) GetMovieByID(id int) (*models.Movie, error) {
+	movie := &models.Movie{}
+
+	query := `
+		SELECT id, tmdb_id, title, tagline, release_year, overview, score, popularity, language, poster_url, trailer_url
+		FROM movies
+		WHERE id = $1
+	`
+
+	err := s.DB.QueryRow(query, id).Scan(&movie.ID, &movie.TMDB_ID, &movie.Title, &movie.Tagline, &movie.ReleaseYear, &movie.Overview, &movie.Score, &movie.Popularity, &movie.Language, &movie.PosterURL, &movie.TrailerURL)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return movie, nil
+}
