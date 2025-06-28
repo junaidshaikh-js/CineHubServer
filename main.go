@@ -39,7 +39,8 @@ func main() {
 
 	defer DB.Close()
 
-	movieHandler := handlers.NewMovieHandler()
+	movieStore := store.NewPostgresMovieStore(DB)
+	movieHandler := handlers.NewMovieHandler(movieStore, logger)
 
 	http.HandleFunc("/api/movies/top", movieHandler.GetTopMovies)
 	http.HandleFunc("/api/movies/random", movieHandler.GetRandomMovies)
