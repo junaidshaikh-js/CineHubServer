@@ -2,6 +2,7 @@ package store
 
 import (
 	"database/sql"
+	"strconv"
 
 	"github.com/junaidshaikh-js/CineHubServer/models"
 )
@@ -81,4 +82,53 @@ func (s *PostgresMovieStore) GetMovieByID(id int) (*models.Movie, error) {
 	}
 
 	return movie, nil
+}
+
+func (s *PostgresMovieStore) SearchMoviesByName(name string, order string, genre *int) ([]models.Movie, error) {
+	orderBy := "popularity DESC"
+	switch order {
+	case "score":
+		orderBy = "score DESC"
+	case "name":
+		orderBy = "title"
+	case "date":
+		orderBy = "release_year DESC"
+	}
+
+	genreFilter := ""
+	if genre != nil {
+		genreFilter = `AND 
+			(SELECT COUNT(*) FROM movie_genres WHERE movie_id=movies.id AND genre_id= ` + strconv.Itoa(*genre) + `) = 1`
+	}
+
+	query := `
+		SELECT id, tmdb_id, title, tagline, release_year, overview, score, popularity, language, poster_url, trailer_url
+		FROM movies
+		WHERE (title ILIKE $1 OR overview ILIKE $1)` + genreFilter + `
+		ORDER BY ` + orderBy + `
+		LIMIT $2
+	`
+
+	rows, err := s.DB.Query(query, "%"+name+"%", defaultLimit)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var movies []models.Movie
+
+	for rows.Next() {
+		var movie models.Movie
+		err := rows.Scan(&movie.ID, &movie.TMDB_ID, &movie.Title, &movie.Tagline, &movie.ReleaseYear, &movie.Overview, &movie.Score, &movie.Popularity, &movie.Language, &movie.PosterURL, &movie.TrailerURL)
+
+		if err != nil {
+			return nil, err
+		}
+
+		movies = append(movies, movie)
+	}
+
+	return movies, nil
 }
