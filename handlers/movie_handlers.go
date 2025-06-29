@@ -119,3 +119,15 @@ func (h *MovieHandler) SearchMoviesByName(w http.ResponseWriter, r *http.Request
 
 	h.writeJSON(w, movies)
 }
+
+func (h *MovieHandler) GetGenres(w http.ResponseWriter, r *http.Request) {
+	genres, err := h.movieStore.GetAllGenres()
+
+	if err != nil {
+		h.logger.Error("Failed to get genres", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	h.writeJSON(w, genres)
+}

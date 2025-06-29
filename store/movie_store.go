@@ -132,3 +132,34 @@ func (s *PostgresMovieStore) SearchMoviesByName(name string, order string, genre
 
 	return movies, nil
 }
+
+func (s *PostgresMovieStore) GetAllGenres() ([]models.Genre, error) {
+	query := `
+		SELECT id, name
+		FROM genres
+		ORDER BY id
+	`
+
+	rows, err := s.DB.Query(query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var genres []models.Genre
+
+	for rows.Next() {
+		var genre models.Genre
+		err := rows.Scan(&genre.ID, &genre.Name)
+
+		if err != nil {
+			return nil, err
+		}
+
+		genres = append(genres, genre)
+	}
+
+	return genres, nil
+}
