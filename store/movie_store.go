@@ -81,7 +81,95 @@ func (s *PostgresMovieStore) GetMovieByID(id int) (*models.Movie, error) {
 		return nil, err
 	}
 
+	err = s.getMovieRelations(movie)
+
+	if err != nil {
+		return nil, err
+	}
+
 	return movie, nil
+}
+
+func (s *PostgresMovieStore) getMovieRelations(movie *models.Movie) error {
+	genreQuery := `
+		SELECT g.id, g.name 
+		FROM genres g
+		JOIN movie_genres mg ON g.id = mg.genre_id
+		WHERE mg.movie_id = $1
+	`
+
+	rows, err := s.DB.Query(genreQuery, movie.ID)
+
+	if err != nil {
+		return err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var genre models.Genre
+		err := rows.Scan(&genre.ID, &genre.Name)
+
+		if err != nil {
+			return err
+		}
+
+		movie.Genres = append(movie.Genres, genre)
+	}
+
+	actorsQuery := `
+		SELECT a.id, a.first_name, a.last_name, a.image_url
+		FROM actors a
+		JOIN movie_cast mc ON mc.actor_id = a.id
+		WHERE mc.movie_id = $1
+	`
+
+	actorRows, err := s.DB.Query(actorsQuery, movie.ID)
+
+	if err != nil {
+		return err
+	}
+
+	defer actorRows.Close()
+
+	for actorRows.Next() {
+		var actor models.Actor
+		err := actorRows.Scan(&actor.ID, &actor.FirstName, &actor.LastName, &actor.ImageURL)
+
+		if err != nil {
+			return err
+		}
+
+		movie.Casting = append(movie.Casting, actor)
+	}
+
+	keywordsQuery := `
+		SELECT k.word
+		FROM keywords k
+		JOIN movie_keywords mk ON mk.keyword_id = k.id
+		WHERE mk.movie_id = $1
+	`
+
+	keywordsRows, err := s.DB.Query(keywordsQuery, movie.ID)
+
+	if err != nil {
+		return err
+	}
+
+	defer keywordsRows.Close()
+
+	for keywordsRows.Next() {
+		var keyword string
+		err := keywordsRows.Scan(&keyword)
+
+		if err != nil {
+			return err
+		}
+
+		movie.Keywords = append(movie.Keywords, keyword)
+	}
+
+	return nil
 }
 
 func (s *PostgresMovieStore) SearchMoviesByName(name string, order string, genre *int) ([]models.Movie, error) {
