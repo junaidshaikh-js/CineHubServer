@@ -86,3 +86,36 @@ func (h *MovieHandler) GetMovieByID(w http.ResponseWriter, r *http.Request) {
 
 	h.writeJSON(w, movie)
 }
+
+func (h *MovieHandler) SearchMoviesByName(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query().Get("q")
+	order := r.URL.Query().Get("order")
+	genreStr := r.URL.Query().Get("genre")
+
+	var genre *int
+
+	if genreStr != "" {
+		genreInt, err := utils.ParseID(genreStr)
+		if err != nil {
+			h.logger.Error("Failed to parse genre ID", err)
+			http.Error(w, "Invalid genre ID", http.StatusBadRequest)
+			return
+		}
+		genre = &genreInt
+	}
+
+	if query == "" {
+		http.Error(w, "Search query required", http.StatusBadRequest)
+		return
+	}
+
+	movies, err := h.movieStore.SearchMoviesByName(query, order, genre)
+
+	if err != nil {
+		h.logger.Error("Failed to search movies by name", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	h.writeJSON(w, movies)
+}
