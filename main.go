@@ -46,6 +46,7 @@ func main() {
 	http.HandleFunc("/api/movies/random", movieHandler.GetRandomMovies)
 	http.HandleFunc("/api/movies/", movieHandler.GetMovieByID)
 	http.HandleFunc("/api/movies/search", movieHandler.SearchMoviesByName)
+	http.HandleFunc("/api/genres", movieHandler.GetGenres)
 
 	http.Handle("/", http.FileServer(http.Dir("public")))
 
