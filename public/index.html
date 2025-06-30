@@ -3,9 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="images/favicon.ico" />
+    <script src="app.js" type="module" defer></script>
     <title>CineHub</title>
   </head>
   <body>
-    <h1>CineHub</h1>
+    <header class="header">
+      <h1 class="header__title">CineHub</h1>
+      <nav class="header__nav">
+        <ul class="header__nav-list">
+          <li class="header__nav-item">
+            <a href="/">Movies</a>
+          </li>
+          <li class="header__nav-item">
+            <a href="/account/favorites">Favorites</a>
+          </li>
+          <li class="header__nav-item">
+            <a href="/account/watchlist">Watchlist</a>
+          </li>
+          <li class="header__nav-item">
+            <a href="/account">My account</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="header__search">
+        <form onsubmit="app.search(event)">
+          <input type="search" placeholder="Search movies" name="search" class="header__search-input" />
+        </form>
+      </div>
+    </header>
+    <main class="main"></main>
+    <footer class="footer">
+      <div class="footer__content">
+        <p>&copy; 2025 CineHub. All rights reserved.</p>
+      </div>
+    </footer>
   </body>
 </html>

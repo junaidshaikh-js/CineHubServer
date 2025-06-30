@@ -1,0 +1,150 @@
+/* CSS Reset */
+/* 1. Use a more-intuitive box-sizing model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+* {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+/* 6. Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+:root {
+  --color-surface: hsl(0, 0%, 9%);
+
+  --primary-color: hsl(1, 91%, 38%);
+  --primary-color-dark: hsl(1, 91%, 30%);
+
+  --color-white: hsl(0, 0%, 97%);
+  --color-black: hsl(0, 0%, 0%);
+
+  --color-gray-light: hsl(0, 0%, 50%);
+  --color-gray: hsl(0, 0%, 40%);
+  --color-gray-dark: hsl(0, 0%, 20%);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--color-surface);
+  color: var(--color-white);
+  line-height: 1.5;
+}
+
+.header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 80rem;
+  padding: 1rem;
+}
+
+.header__title {
+  color: var(--primary-color);
+  letter-spacing: 2px;
+}
+
+.header__nav .header__nav-list {
+  display: flex;
+  gap: 1rem;
+  padding: 0;
+}
+
+.header__nav .header__nav-list .header__nav-item {
+  list-style: none;
+}
+
+.header__nav .header__nav-list .header__nav-item a {
+  color: var(--color-white);
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.header__nav .header__nav-list .header__nav-item a:hover {
+  text-decoration: underline;
+}
+
+.header__search {
+  width: 100%;
+}
+
+.header__search-input {
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.footer {
+  background-color: var(--color-gray-dark);
+}
+
+.footer__content {
+  margin: 0 auto;
+  max-width: 80rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+@media (width > 48rem) {
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .header__search {
+    width: unset;
+  }
+}
