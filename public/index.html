@@ -9,7 +9,7 @@
     <title>CineHub</title>
   </head>
   <body>
-    <header class="header">
+    <header class="max-width header">
       <h1 class="header__title">CineHub</h1>
       <nav class="header__nav">
         <ul class="header__nav-list">
@@ -34,8 +34,20 @@
       </div>
     </header>
     <main class="main"></main>
+
+    <template id="template-home">
+      <section class="max-width vertical-scroll" id="top-20">
+        <h2 class="vertical-scroll__title">This Week's Top Movies</h2>
+        <ul class="vertical-scroll__list"></ul>
+      </section>
+      <section class="max-width vertical-scroll" id="random">
+        <h2 class="vertical-scroll__title">Something to watch today</h2>
+        <ul class="vertical-scroll__list"></ul>
+      </section>
+    </template>
+
     <footer class="footer">
-      <div class="footer__content">
+      <div class="max-width footer__content">
         <p>&copy; 2025 CineHub. All rights reserved.</p>
       </div>
     </footer>
