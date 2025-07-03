@@ -35,6 +35,7 @@
     </header>
     <main class="main"></main>
 
+    <!-- Templates -->
     <template id="template-home">
       <section class="max-width vertical-scroll" id="top-20">
         <h2 class="vertical-scroll__title">This Week's Top Movies</h2>
@@ -44,6 +45,25 @@
         <h2 class="vertical-scroll__title">Something to watch today</h2>
         <ul class="vertical-scroll__list"></ul>
       </section>
+    </template>
+
+    <template id="template-movie-details">
+      <article id="movie" class="max-width">
+        <h2><animated-loading elements="2"></animated-loading></h2>
+        <h3></h3>
+        <header>
+          <img src="" alt="Poster" />
+          <youtube-embed id="trailer" data-url=""> Youtube loading... </youtube-embed>
+          <section id="actions">
+            <dl id="metadata"></dl>
+            <button>Add to Favorites</button>
+            <button>Add to Watchlist</button>
+          </section>
+        </header>
+        <ul id="genres"></ul>
+        <p id="overview"></p>
+        <ul id="cast"></ul>
+      </article>
     </template>
 
     <footer class="footer">
