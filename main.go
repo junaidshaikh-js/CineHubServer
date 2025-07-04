@@ -48,6 +48,12 @@ func main() {
 	http.HandleFunc("/api/movies/search", movieHandler.SearchMoviesByName)
 	http.HandleFunc("/api/genres", movieHandler.GetGenres)
 
+	catchAllClientRouteHandler := func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./public/index.html")
+	}
+
+	http.HandleFunc("/movies/", catchAllClientRouteHandler)
+
 	http.Handle("/", http.FileServer(http.Dir("public")))
 
 	const addr = ":5555"
