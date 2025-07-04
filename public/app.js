@@ -1,5 +1,6 @@
 import { HomePage } from './components/HomePage.js'
 import { MovieDetailsPage } from './components/MovieDetailsPage.js'
+import './components/YoutubeEmbed.js'
 
 window.addEventListener('DOMContentLoaded', event => {
   document.querySelector('main').appendChild(new HomePage())

@@ -357,6 +357,10 @@ dd {
   border-bottom-left-radius: 10px;
 }
 
+#movie #trailer iframe {
+  aspect-ratio: 16 / 9;
+}
+
 @media (width > 48rem) {
   #movie header {
     flex-direction: row;
