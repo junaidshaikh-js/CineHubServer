@@ -5,8 +5,10 @@ export class MovieItem extends HTMLElement {
   }
 
   connectedCallback() {
+    const url = `/movies/${this.movie.id}`
+
     this.innerHTML = `
-      <a href="">
+      <a onClick="app.Router.go('${url}')">
         <article class="movie-item">
           <img 
             src="${this.movie.poster_url}" 

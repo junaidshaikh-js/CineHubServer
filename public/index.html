@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="images/favicon.ico" />
-    <script src="app.js" type="module" defer></script>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" href="/images/favicon.ico" />
+    <script src="/app.js" type="module" defer></script>
     <title>CineHub</title>
+    <base href="/" />
   </head>
   <body>
     <header class="max-width header">
@@ -14,16 +15,16 @@
       <nav class="header__nav">
         <ul class="header__nav-list">
           <li class="header__nav-item">
-            <a href="/">Movies</a>
+            <a href="/" class="navlink">Movies</a>
           </li>
           <li class="header__nav-item">
-            <a href="/account/favorites">Favorites</a>
+            <a href="/account/favorites" class="navlink">Favorites</a>
           </li>
           <li class="header__nav-item">
-            <a href="/account/watchlist">Watchlist</a>
+            <a href="/account/watchlist" class="navlink">Watchlist</a>
           </li>
           <li class="header__nav-item">
-            <a href="/account">My account</a>
+            <a href="/account" class="navlink">My account</a>
           </li>
         </ul>
       </nav>
