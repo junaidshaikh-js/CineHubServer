@@ -8,8 +8,12 @@ export class MovieDetailsPage extends HTMLElement {
     try {
       this.movie = await API.getMovieById(this.id)
     } catch (error) {
-      // TODO: show error message
-      alert('Movie not found')
+      app.showError('Movie not found')
+      return
+    }
+
+    if (!this.movie) {
+      app.showError('Movie not found')
       return
     }
 

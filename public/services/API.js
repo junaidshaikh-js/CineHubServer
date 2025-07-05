@@ -8,6 +8,7 @@ export const API = {
       return data
     } catch (error) {
       console.error(error)
+      app.showError()
     }
   },
   getTopMovies: async () => {
