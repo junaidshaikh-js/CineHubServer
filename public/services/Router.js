@@ -45,7 +45,21 @@ export const Router = {
       pageElement.textContent = 'Page Not Found'
     }
 
-    document.querySelector('main').innerHTML = ''
-    document.querySelector('main').appendChild(pageElement)
+    const oldPage = document.querySelector('main').firstElementChild
+    if (oldPage) oldPage.style.viewTransitionName = 'old'
+    pageElement.style.viewTransitionName = 'new'
+
+    const updatePage = () => {
+      document.querySelector('main').innerHTML = ''
+      document.querySelector('main').appendChild(pageElement)
+    }
+
+    if (!document.startViewTransition) {
+      updatePage()
+    } else {
+      document.startViewTransition(() => {
+        updatePage()
+      })
+    }
   },
 }
