@@ -52,6 +52,7 @@ func main() {
 		http.ServeFile(w, r, "./public/index.html")
 	}
 
+	http.HandleFunc("/movies", catchAllClientRouteHandler)
 	http.HandleFunc("/movies/", catchAllClientRouteHandler)
 
 	http.Handle("/", http.FileServer(http.Dir("public")))
