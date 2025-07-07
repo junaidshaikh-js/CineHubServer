@@ -42,11 +42,17 @@ func main() {
 	movieStore := store.NewPostgresMovieStore(DB)
 	movieHandler := handlers.NewMovieHandler(movieStore, logger)
 
+	accountStore := store.NewPostgresAccountStore(DB)
+	accountHandler := handlers.NewAccountHandler(accountStore, logger)
+
 	http.HandleFunc("/api/movies/top", movieHandler.GetTopMovies)
 	http.HandleFunc("/api/movies/random", movieHandler.GetRandomMovies)
 	http.HandleFunc("/api/movies/", movieHandler.GetMovieByID)
 	http.HandleFunc("/api/movies/search", movieHandler.SearchMoviesByName)
 	http.HandleFunc("/api/genres", movieHandler.GetGenres)
+
+	http.HandleFunc("/api/account/register", accountHandler.Register)
+	http.HandleFunc("/api/account/authenticate", accountHandler.Authenticate)
 
 	catchAllClientRouteHandler := func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./public/index.html")
