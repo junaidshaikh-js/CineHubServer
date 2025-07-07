@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"database/sql"
-	"encoding/json"
 	"errors"
 	"net/http"
 
@@ -23,15 +22,6 @@ func NewMovieHandler(movieStore store.MovieStore, logger *logger.Logger) *MovieH
 	}
 }
 
-func (h *MovieHandler) writeJSON(w http.ResponseWriter, data interface{}) {
-	w.Header().Set("Content-Type", "application/json")
-
-	if err := json.NewEncoder(w).Encode(data); err != nil {
-		h.logger.Error("Failed to encode JSON", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-	}
-}
-
 func (h *MovieHandler) GetTopMovies(w http.ResponseWriter, r *http.Request) {
 	movies, err := h.movieStore.GetTopMovies()
 
@@ -41,7 +31,7 @@ func (h *MovieHandler) GetTopMovies(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.writeJSON(w, movies)
+	utils.WriteJSONResponse(w, movies)
 }
 
 func (h *MovieHandler) GetRandomMovies(w http.ResponseWriter, r *http.Request) {
@@ -53,7 +43,7 @@ func (h *MovieHandler) GetRandomMovies(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.writeJSON(w, movies)
+	utils.WriteJSONResponse(w, movies)
 }
 
 func (h *MovieHandler) GetMovieByID(w http.ResponseWriter, r *http.Request) {
@@ -84,7 +74,7 @@ func (h *MovieHandler) GetMovieByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.writeJSON(w, movie)
+	utils.WriteJSONResponse(w, movie)
 }
 
 func (h *MovieHandler) SearchMoviesByName(w http.ResponseWriter, r *http.Request) {
@@ -117,7 +107,7 @@ func (h *MovieHandler) SearchMoviesByName(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	h.writeJSON(w, movies)
+	utils.WriteJSONResponse(w, movies)
 }
 
 func (h *MovieHandler) GetGenres(w http.ResponseWriter, r *http.Request) {
@@ -129,5 +119,5 @@ func (h *MovieHandler) GetGenres(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.writeJSON(w, genres)
+	utils.WriteJSONResponse(w, genres)
 }
