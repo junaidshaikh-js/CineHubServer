@@ -26,4 +26,26 @@ export const API = {
   getGenres: async () => {
     return await API.fetch('/genres')
   },
+  register: async (name, email, password) => {
+    return await API.send('/account/register', { name, email, password })
+  },
+  login: async (email, password) => {
+    return await API.send('/account/authenticate', { email, password })
+  },
+  send: async (url, data) => {
+    try {
+      const res = await fetch(`${API.BASE_URL}${url}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      const result = await res.json()
+      return result
+    } catch (error) {
+      console.error(error)
+      app.showError()
+    }
+  },
 }

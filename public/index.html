@@ -95,6 +95,46 @@
       </section>
     </template>
 
+    <template id="template-register">
+      <section id="account-register" class="max-width">
+        <h2>Register a New Account</h2>
+        <form onsubmit="app.register(event)">
+          <label for="register-name">Name</label>
+          <input id="register-name" required autocomplete="name" type="text" />
+
+          <label for="register-email">Email</label>
+          <input id="register-email" required autocomplete="email" type="email" />
+
+          <label for="register-password">Password</label>
+          <input id="register-password" required autocomplete="new-password" type="password" />
+
+          <label for="register-confirm-password">Confirm Password</label>
+          <input id="register-confirm-password" required type="password" autocomplete="new-password" />
+
+          <button>Register</button>
+
+          <p>If you already have an account, please <a href="/account/login">log in</a></p>
+        </form>
+      </section>
+    </template>
+
+    <template id="template-login">
+      <section id="account-login" class="max-width">
+        <h2>Login</h2>
+        <form onsubmit="app.login(event)">
+          <label for="login-email">Email</label>
+          <input id="login-email" required autocomplete="email" type="email" />
+
+          <label for="login-password">Password</label>
+          <input id="login-password" required autocomplete="current-password" type="password" />
+
+          <button>Log In</button>
+
+          <p>If you don't have an account, please <a href="/account/register">register</a></p>
+        </form>
+      </section>
+    </template>
+
     <footer class="footer">
       <div class="max-width footer__content">
         <p>&copy; 2025 CineHub. All rights reserved.</p>

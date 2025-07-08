@@ -60,6 +60,7 @@ func main() {
 
 	http.HandleFunc("/movies", catchAllClientRouteHandler)
 	http.HandleFunc("/movies/", catchAllClientRouteHandler)
+	http.HandleFunc("/account/", catchAllClientRouteHandler)
 
 	http.Handle("/", http.FileServer(http.Dir("public")))
 
