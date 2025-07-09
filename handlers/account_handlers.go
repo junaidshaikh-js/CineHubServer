@@ -5,7 +5,9 @@ import (
 	"net/http"
 
 	"github.com/junaidshaikh-js/CineHubServer/logger"
+	"github.com/junaidshaikh-js/CineHubServer/models"
 	"github.com/junaidshaikh-js/CineHubServer/store"
+	"github.com/junaidshaikh-js/CineHubServer/token"
 	"github.com/junaidshaikh-js/CineHubServer/utils"
 )
 
@@ -23,6 +25,7 @@ type AuthRequestPayload struct {
 type AuthResponse struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
+	Token   string `json:"token"`
 }
 
 type AccountHandler struct {
@@ -75,6 +78,7 @@ func (h *AccountHandler) Register(w http.ResponseWriter, r *http.Request) {
 	response := AuthResponse{
 		Success: success,
 		Message: "User registered successfully",
+		Token:   token.CreateJWT(models.User{Email: req.Email, Name: req.Name}, *h.logger),
 	}
 
 	if err := utils.WriteJSONResponse(w, response); err == nil {
@@ -100,6 +104,7 @@ func (h *AccountHandler) Authenticate(w http.ResponseWriter, r *http.Request) {
 	response := AuthResponse{
 		Success: success,
 		Message: "User authenticated successfully",
+		Token:   token.CreateJWT(models.User{Email: req.Email}, *h.logger),
 	}
 
 	if err := utils.WriteJSONResponse(w, response); err == nil {

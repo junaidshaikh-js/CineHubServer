@@ -1,9 +1,11 @@
 import { Router } from './services/Router.js'
 import { API } from './services/API.js'
+import Store from './services/Store.js'
 import './components/YoutubeEmbed.js'
 
 window.app = {
   Router,
+  Store,
   showError: (message = 'Something went wrong!', goToHome = true) => {
     document.getElementById('alert-modal').showModal()
     document.querySelector('#alert-modal p').textContent = message
@@ -57,6 +59,7 @@ window.app = {
 
     if (result.success) {
       app.Router.go('/account')
+      app.Store.token = result.token
     } else {
       app.showError(result.message, false)
     }
@@ -81,6 +84,7 @@ window.app = {
 
     if (result.success) {
       app.Router.go('/account')
+      app.Store.token = result.token
     } else {
       app.showError(result.message, false)
     }
