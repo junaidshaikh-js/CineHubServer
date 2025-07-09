@@ -89,6 +89,10 @@ window.app = {
       app.showError(result.message, false)
     }
   },
+  logout: () => {
+    Store.token = null
+    app.Router.go('/')
+  },
 }
 
 window.addEventListener('DOMContentLoaded', event => {
