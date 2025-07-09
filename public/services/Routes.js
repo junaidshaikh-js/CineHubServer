@@ -29,6 +29,7 @@ const ROUTES = [
   {
     path: '/account',
     component: AccountPage,
+    protected: true,
   },
 ]
 
