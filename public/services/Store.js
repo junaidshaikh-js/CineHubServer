@@ -1,7 +1,7 @@
 const Store = {
   token: null,
   get loggedIn() {
-    return this.token !== null
+    return this.token != null
   },
 }
 
@@ -13,7 +13,11 @@ const proxyStore = new Proxy(Store, {
   set: (target, prop, value) => {
     if (prop === 'token') {
       target[prop] = value
-      localStorage.setItem('token', value)
+      if (value == null) {
+        localStorage.removeItem('token')
+      } else {
+        localStorage.setItem('token', value)
+      }
     }
     return true
   },

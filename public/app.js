@@ -58,8 +58,8 @@ window.app = {
     const result = await API.register(name, email, password)
 
     if (result.success) {
-      app.Router.go('/account')
       app.Store.token = result.token
+      app.Router.go('/account')
     } else {
       app.showError(result.message, false)
     }
@@ -83,14 +83,14 @@ window.app = {
     const result = await API.login(email, password)
 
     if (result.success) {
-      app.Router.go('/account')
       app.Store.token = result.token
+      app.Router.go('/account')
     } else {
       app.showError(result.message, false)
     }
   },
   logout: () => {
-    Store.token = null
+    app.Store.token = null
     app.Router.go('/')
   },
 }

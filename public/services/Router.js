@@ -28,6 +28,7 @@ export const Router = {
     for (const r of ROUTES) {
       if (typeof r.path === 'string' && r.path === routePath) {
         pageElement = new r.component()
+        pageElement.protected = !!r.protected
         break
       } else if (r.path instanceof RegExp) {
         const match = r.path.exec(route)
@@ -35,8 +36,16 @@ export const Router = {
           pageElement = new r.component()
           const params = match.slice(1)
           pageElement.params = params
+          pageElement.protected = !!r.protected
           break
         }
+      }
+    }
+
+    if (pageElement) {
+      if (pageElement.protected && app.Store.loggedIn == false) {
+        app.Router.go('/account/login')
+        return
       }
     }
 
