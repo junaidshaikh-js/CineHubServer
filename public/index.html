@@ -135,6 +135,17 @@
       </section>
     </template>
 
+    <template id="template-account">
+      <section id="account" class="max-width">
+        <h2>You are logged in</h2>
+        <div class="btn-group">
+          <button onclick="app.logout()">Logout</button>
+          <button onclick="app.Router.go('/account/favorites')">Favorites</button>
+          <button onclick="app.Router.go('/account/watchlist')">Watchlist</button>
+        </div>
+      </section>
+    </template>
+
     <footer class="footer">
       <div class="max-width footer__content">
         <p>&copy; 2025 CineHub. All rights reserved.</p>
