@@ -63,8 +63,8 @@
           <youtube-embed id="trailer" data-url=""> Youtube loading... </youtube-embed>
           <section id="actions">
             <dl id="metadata"></dl>
-            <button>Add to Favorites</button>
-            <button>Add to Watchlist</button>
+            <button id="add-to-fav-btn">Add to Favorites</button>
+            <button id="add-to-watchlist-btn">Add to Watchlist</button>
           </section>
         </header>
         <ul id="genres"></ul>
@@ -143,6 +143,15 @@
           <button onclick="app.Router.go('/account/favorites')">Favorites</button>
           <button onclick="app.Router.go('/account/watchlist')">Watchlist</button>
         </div>
+      </section>
+    </template>
+
+    <template id="template-collection">
+      <section id="collection" class="max-width">
+        <h2></h2>
+        <ul id="movies-result">
+          <animated-loading data-elements="5" data-width="150" data-height="220"> </animated-loading>
+        </ul>
       </section>
     </template>
 

@@ -35,6 +35,16 @@ export class MovieDetailsPage extends HTMLElement {
       <dd>${this.movie.popularity}</dd>
     `
 
+    console.log(this.movie)
+
+    this.querySelector('#add-to-fav-btn').addEventListener('click', () => {
+      app.saveToCollection(this.movie.id, 'favorite')
+    })
+
+    this.querySelector('#add-to-watchlist-btn').addEventListener('click', () => {
+      app.saveToCollection(this.movie.id, 'watchlist')
+    })
+
     const ulGenres = this.querySelector('#genres')
     ulGenres.innerHTML = ''
     this.movie.genres.forEach(genre => {

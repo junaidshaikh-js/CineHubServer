@@ -3,7 +3,11 @@ export const API = {
   fetch: async (url, args) => {
     try {
       const query = args ? `?${new URLSearchParams(args).toString()}` : ''
-      const res = await fetch(`${API.BASE_URL}${url}${query}`)
+      const res = await fetch(`${API.BASE_URL}${url}${query}`, {
+        headers: {
+          Authorization: app.Store.token ? `Bearer ${app.Store.token}` : null,
+        },
+      })
       const data = await res.json()
       return data
     } catch (error) {
@@ -38,6 +42,7 @@ export const API = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: app.Store.token ? `Bearer ${app.Store.token}` : null,
         },
         body: JSON.stringify(data),
       })
@@ -47,5 +52,14 @@ export const API = {
       console.error(error)
       app.showError()
     }
+  },
+  saveToCollection: async (movieId, collection) => {
+    return await API.send('/account/save-to-collection', { movieId, collection })
+  },
+  getFavorites: async () => {
+    return await API.fetch('/account/favorites')
+  },
+  getWatchlist: async () => {
+    return await API.fetch('/account/watchlist')
   },
 }

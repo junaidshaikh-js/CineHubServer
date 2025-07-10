@@ -533,3 +533,7 @@ input[type='email'] {
   display: flex;
   gap: 1rem;
 }
+
+#collection {
+  padding: 2rem 0;
+}
