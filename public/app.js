@@ -1,6 +1,7 @@
 import { Router } from './services/Router.js'
 import { API } from './services/API.js'
 import Store from './services/Store.js'
+import './components/AnimatedLoading.js'
 import './components/YoutubeEmbed.js'
 
 window.app = {
@@ -92,6 +93,28 @@ window.app = {
   logout: () => {
     app.Store.token = null
     app.Router.go('/')
+  },
+  saveToCollection: async (movieId, collection) => {
+    if (app.Store.loggedIn) {
+      try {
+        const response = await API.saveToCollection(movieId, collection)
+        if (response.success) {
+          switch (collection) {
+            case 'favorite':
+              app.Router.go('/account/favorites')
+              break
+            case 'watchlist':
+              app.Router.go('/account/watchlist')
+          }
+        } else {
+          app.showError("We couldn't save the movie.")
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      app.Router.go('/account/login')
+    }
   },
 }
 
