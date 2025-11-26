@@ -8,8 +8,14 @@ export const API = {
           Authorization: app.Store.token ? `Bearer ${app.Store.token}` : null,
         },
       })
-      const data = await res.json()
-      return data
+      if (!res.ok && res.status === 401) {
+        app.Store.token = null
+        app.Router.go('/account/login',)
+        return
+      } else if (!res.ok) {
+        throw new Error(res.message)
+      }
+      return await res.json()
     } catch (error) {
       console.error(error)
       app.showError()
