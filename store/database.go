@@ -5,7 +5,7 @@ import (
 	"errors"
 	"os"
 
-	_ "github.com/lib/pq"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 func Open() (*sql.DB, error) {
@@ -15,7 +15,7 @@ func Open() (*sql.DB, error) {
 		return nil, errors.New("DATABASE_URL environment variable is not set")
 	}
 
-	DB, err := sql.Open("postgres", connectionStr)
+	DB, err := sql.Open("pgx", connectionStr)
 
 	if err != nil {
 		return nil, err
