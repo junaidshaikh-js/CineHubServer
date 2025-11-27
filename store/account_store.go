@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/junaidshaikh-js/CineHubServer/models"
-	_ "github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
 )
 

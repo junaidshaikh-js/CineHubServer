@@ -2,7 +2,6 @@ package store
 
 import (
 	"database/sql"
-	"strconv"
 
 	"github.com/junaidshaikh-js/CineHubServer/models"
 )
@@ -183,21 +182,27 @@ func (s *PostgresMovieStore) SearchMoviesByName(name string, order string, genre
 		orderBy = "release_year DESC"
 	}
 
-	genreFilter := ""
+	query := `
+    SELECT id, tmdb_id, title, tagline, release_year, overview, score, popularity, language, poster_url, trailer_url
+    FROM movies
+    WHERE (title ILIKE $1 OR overview ILIKE $1)
+  `
+	args := []any{"%" + name + "%", defaultLimit}
+
 	if genre != nil {
-		genreFilter = `AND 
-			(SELECT COUNT(*) FROM movie_genres WHERE movie_id=movies.id AND genre_id= ` + strconv.Itoa(*genre) + `) = 1`
+		query += `
+        AND (SELECT COUNT(*) FROM movie_genres 
+             WHERE movie_id=movies.id AND genre_id = $3) = 1
+    `
+		args = append(args, *genre)
 	}
 
-	query := `
-		SELECT id, tmdb_id, title, tagline, release_year, overview, score, popularity, language, poster_url, trailer_url
-		FROM movies
-		WHERE (title ILIKE $1 OR overview ILIKE $1)` + genreFilter + `
-		ORDER BY ` + orderBy + `
-		LIMIT $2
-	`
+	query += `
+    ORDER BY ` + orderBy + `
+    LIMIT $2
+`
 
-	rows, err := s.DB.Query(query, "%"+name+"%", defaultLimit)
+	rows, err := s.DB.Query(query, args...)
 
 	if err != nil {
 		return nil, err
